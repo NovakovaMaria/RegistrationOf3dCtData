@@ -10,6 +10,7 @@ from ct_registration.registration import rigid_register, resample
 from ct_registration.metrics import compute_mse, compute_ncc, compute_masked_metrics
 from ct_registration.masking import create_specimen_mask
 from ct_registration.visualization import plot_central_slices
+from ct_registration.report import save_metrics_report
 from ct_registration.config import RESULTS_DIR
 
 
@@ -48,6 +49,14 @@ def main():
     after_m  = compute_masked_metrics(f, r, mask)
     print(f"  Masked       — Before: MSE={before_m['MSE']:.6f}  NCC={before_m['NCC']:.6f}")
     print(f"  Masked       — After:  MSE={after_m['MSE']:.6f}  NCC={after_m['NCC']:.6f}")
+
+    # Save report
+    save_metrics_report({
+        "Before registration (whole volume)": {"MSE": compute_mse(f, m), "NCC": compute_ncc(f, m)},
+        "After registration (whole volume)":  {"MSE": compute_mse(f, r), "NCC": compute_ncc(f, r)},
+        "Before registration (masked)":       before_m,
+        "After registration (masked)":        after_m,
+    })
 
     # Visualisation
     plot_central_slices(f, m, r)

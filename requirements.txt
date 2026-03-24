@@ -2,3 +2,4 @@ SimpleITK
 numpy
 tifffile
 scikit-image
+matplotlib

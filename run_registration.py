@@ -9,7 +9,9 @@ from ct_registration.io import load_volumes_sitk, sitk_to_numpy, save_registered
 from ct_registration.registration import rigid_register, resample
 from ct_registration.metrics import compute_mse, compute_ncc, compute_masked_metrics, compute_ssim_per_slice
 from ct_registration.masking import create_specimen_mask
-from ct_registration.visualization import plot_central_slices
+from ct_registration.visualization import (
+    plot_central_slices, plot_checkerboard, plot_misalignment_overlay,
+)
 from ct_registration.report import save_metrics_report
 from ct_registration.config import RESULTS_DIR
 
@@ -60,6 +62,8 @@ def main():
 
     # Visualisation
     plot_central_slices(f, m, r)
+    plot_checkerboard(f, r)
+    plot_misalignment_overlay(f, m, r)
 
     print("\nDone.")
 

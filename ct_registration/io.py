@@ -39,5 +39,5 @@ def save_registered_volume(arr: np.ndarray) -> str:
     """Save the registered volume as a float32 TIF stack, then return file path."""
     out_path = os.path.join(RESULTS_DIR, "VEC4-02-b2_registered.tif")
     tifffile.imwrite(out_path, arr.astype(np.float32))
-    print(f"\n  Saved registered volume → {out_path}")
+    print(f"\n  Saved registered volume into {out_path}")
     return out_path

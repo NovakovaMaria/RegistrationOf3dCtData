@@ -3,13 +3,13 @@
 Entry point: run the rigid-registration pipeline.
 """
 
-import os
 import numpy as np
 
 from ct_registration.io import load_volumes_sitk, sitk_to_numpy, save_registered_volume
 from ct_registration.registration import rigid_register, resample
 from ct_registration.metrics import compute_mse, compute_ncc, compute_masked_metrics
 from ct_registration.masking import create_specimen_mask
+from ct_registration.visualization import plot_central_slices
 from ct_registration.config import RESULTS_DIR
 
 
@@ -49,22 +49,8 @@ def main():
     print(f"  Masked       — Before: MSE={before_m['MSE']:.6f}  NCC={before_m['NCC']:.6f}")
     print(f"  Masked       — After:  MSE={after_m['MSE']:.6f}  NCC={after_m['NCC']:.6f}")
 
-    # Quick visual check
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-
-    z = fixed_arr.shape[0] // 2
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    axes[0].imshow(f[z], cmap="gray"); axes[0].set_title("Fixed")
-    axes[1].imshow(m[z], cmap="gray"); axes[1].set_title("Moving")
-    axes[2].imshow(r[z], cmap="gray"); axes[2].set_title("Registered")
-    for ax in axes:
-        ax.axis("off")
-    plt.tight_layout()
-    plt.savefig(os.path.join(RESULTS_DIR, "slices_axial.png"), dpi=150)
-    plt.close()
-    print("  Saved slices_axial.png")
+    # Visualisation
+    plot_central_slices(f, m, r)
 
     print("\nDone.")
 

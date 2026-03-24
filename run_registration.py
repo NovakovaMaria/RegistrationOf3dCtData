@@ -8,7 +8,8 @@ import numpy as np
 
 from ct_registration.io import load_volumes_sitk, sitk_to_numpy, save_registered_volume
 from ct_registration.registration import rigid_register, resample
-from ct_registration.metrics import compute_mse, compute_ncc
+from ct_registration.metrics import compute_mse, compute_ncc, compute_masked_metrics
+from ct_registration.masking import create_specimen_mask
 from ct_registration.config import RESULTS_DIR
 
 
@@ -36,9 +37,17 @@ def main():
     m = moving_arr.astype(np.float64) / fmax
     r = registered_arr.astype(np.float64) / fmax
 
+    # Build specimen mask
+    print("\n── Building Specimen Mask ──")
+    mask = create_specimen_mask(f)
+
     print("\n── Quantitative Comparison ──")
-    print(f"  Before — MSE: {compute_mse(f, m):.6f}  NCC: {compute_ncc(f, m):.6f}")
-    print(f"  After  — MSE: {compute_mse(f, r):.6f}  NCC: {compute_ncc(f, r):.6f}")
+    print(f"  Whole volume — Before: MSE={compute_mse(f, m):.6f}  NCC={compute_ncc(f, m):.6f}")
+    print(f"  Whole volume — After:  MSE={compute_mse(f, r):.6f}  NCC={compute_ncc(f, r):.6f}")
+    before_m = compute_masked_metrics(f, m, mask)
+    after_m  = compute_masked_metrics(f, r, mask)
+    print(f"  Masked       — Before: MSE={before_m['MSE']:.6f}  NCC={before_m['NCC']:.6f}")
+    print(f"  Masked       — After:  MSE={after_m['MSE']:.6f}  NCC={after_m['NCC']:.6f}")
 
     # Quick visual check
     import matplotlib

@@ -3,6 +3,13 @@ Quantitative comparison metrics for registration quality assessment.
 """
 
 import numpy as np
+from skimage.metrics import structural_similarity as ssim
+
+
+def compute_ssim_per_slice(a: np.ndarray, b: np.ndarray) -> float:
+    """Mean SSIM across all axial slices."""
+    vals = [ssim(a[z], b[z], data_range=1.0) for z in range(a.shape[0])]
+    return float(np.mean(vals))
 
 
 def compute_mse(a: np.ndarray, b: np.ndarray) -> float:

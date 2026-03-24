@@ -15,7 +15,7 @@ def load_tif_as_sitk(path: str) -> sitk.Image:
     print(f"  Loading {os.path.basename(path)} ...")
     arr = tifffile.imread(path)                       # (Z, Y, X)
     print(f"    Shape: {arr.shape}, dtype: {arr.dtype}, "
-          f"range: [{arr.min()}, {arr.max()}]")
+        f"range: [{arr.min()}, {arr.max()}]")
     img = sitk.GetImageFromArray(arr.astype(np.float32))
     img.SetSpacing((1.0, 1.0, 1.0))
     img.SetOrigin((0.0, 0.0, 0.0))

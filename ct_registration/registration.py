@@ -45,7 +45,7 @@ def rigid_register(fixed: sitk.Image, moving: sitk.Image) -> sitk.Transform:
 
 
 def resample(fixed: sitk.Image, moving: sitk.Image,
-             transform: sitk.Transform) -> sitk.Image:
+            transform: sitk.Transform) -> sitk.Image:
     """Resample *moving* onto the *fixed* grid using *transform*."""
     resampled = sitk.Resample(
         moving, fixed, transform,

@@ -10,7 +10,8 @@ from ct_registration.registration import rigid_register, resample
 from ct_registration.metrics import compute_mse, compute_ncc, compute_masked_metrics, compute_ssim_per_slice
 from ct_registration.masking import create_specimen_mask
 from ct_registration.visualization import (
-    plot_central_slices, plot_checkerboard, plot_misalignment_overlay,
+    plot_central_slices, plot_checkerboard,
+    plot_misalignment_overlay, plot_difference_histogram,
 )
 from ct_registration.report import save_metrics_report
 from ct_registration.config import RESULTS_DIR
@@ -42,7 +43,7 @@ def main():
 
     # Build specimen mask
     print("\n── Building Specimen Mask ──")
-    mask = create_specimen_mask(f)
+    mask, mask_eroded = create_specimen_mask(f)
 
     print("\n── Quantitative Comparison ──")
     print(f"  Whole volume — Before: MSE={compute_mse(f, m):.6f}  NCC={compute_ncc(f, m):.6f}  SSIM={compute_ssim_per_slice(f, m):.6f}")
@@ -51,6 +52,10 @@ def main():
     after_m  = compute_masked_metrics(f, r, mask)
     print(f"  Masked       — Before: MSE={before_m['MSE']:.6f}  NCC={before_m['NCC']:.6f}")
     print(f"  Masked       — After:  MSE={after_m['MSE']:.6f}  NCC={after_m['NCC']:.6f}")
+    before_e = compute_masked_metrics(f, m, mask_eroded)
+    after_e  = compute_masked_metrics(f, r, mask_eroded)
+    print(f"  Eroded mask  — Before: MSE={before_e['MSE']:.6f}  NCC={before_e['NCC']:.6f}")
+    print(f"  Eroded mask  — After:  MSE={after_e['MSE']:.6f}  NCC={after_e['NCC']:.6f}")
 
     # Save report
     save_metrics_report({
@@ -64,6 +69,7 @@ def main():
     plot_central_slices(f, m, r)
     plot_checkerboard(f, r)
     plot_misalignment_overlay(f, m, r)
+    plot_difference_histogram(f, m, r)
 
     print("\nDone.")
 

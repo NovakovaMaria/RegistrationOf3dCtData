@@ -21,7 +21,7 @@ def rigid_register(fixed: sitk.Image, moving: sitk.Image) -> sitk.Transform:
     Parameters
     ----------
     fixed : sitk.Image   – reference volume (before deformation)
-    moving : sitk.Image  – volume to align  (after deformation)
+    moving : sitk.Image   – volume to align  (after deformation)
 
     Returns
     -------
@@ -68,11 +68,11 @@ def rigid_register(fixed: sitk.Image, moving: sitk.Image) -> sitk.Transform:
 
     # Callbacks
     reg.AddCommand(sitk.sitkIterationEvent,
-                    lambda: _registration_callback(reg))
+                   lambda: _registration_callback(reg))
     reg.AddCommand(sitk.sitkStartEvent,
-                    lambda: print("  Registration started ..."))
+                   lambda: print("  Registration started ..."))
     reg.AddCommand(sitk.sitkEndEvent,
-                    lambda: print("  Registration finished."))
+                   lambda: print("  Registration finished."))
 
     # Execute
     final_transform = reg.Execute(fixed, moving)

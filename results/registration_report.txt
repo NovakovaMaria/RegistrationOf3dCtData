@@ -1,0 +1,134 @@
+============================================================
+  Registration of 3D CT Data — Results Report
+============================================================
+
+────────────────────────────────────────────────────────────
+  Registration Settings
+────────────────────────────────────────────────────────────
+Registration method:  Rigid (Euler3DTransform)
+Initialisation:       Centre-of-mass (MOMENTS)
+Similarity metric:    Mattes Mutual Information (50 bins)
+Metric sampling:      RANDOM, 15%
+Optimiser:            Regular Step Gradient Descent
+  Learning rate:      1.0
+  Min step:           1e-4
+  Relaxation factor:  0.5
+  Max iterations:     500 per level
+  Gradient tolerance: 1e-8
+Multi-resolution:     3 levels (shrink 4→2→1)
+Smoothing sigmas:     2.0 → 1.0 → 0.0 (physical units)
+Interpolator:         Linear
+Preprocessing:        float32 cast, 1×1×1 spacing
+Specimen mask:        Otsu + morph. cleanup; eroded 5 px
+
+Final transform:
+  itk::simple::CompositeTransform
+ CompositeTransform (0x273cb310)
+   RTTI typeinfo:   itk::CompositeTransform<double, 3u>
+   Reference Count: 1
+   Modified Time: 9828299
+   Debug: Off
+   Object Name: 
+   Observers: 
+     none
+   TransformQueue: 
+   >>>>>>>>>
+   Euler3DTransform (0x27a468e0)
+     RTTI typeinfo:   itk::Euler3DTransform<double>
+     Reference Count: 1
+     Modified Time: 9828289
+     Debug: Off
+     Object Name: 
+     Observers: 
+       none
+     Matrix: 
+       0.998557 0.0530009 0.00863331 
+       -0.053004 0.998594 0.000132517 
+       -0.00861415 -0.000589926 0.999963 
+     Offset: [-9.93212, 9.44337, 1.27079]
+     Center: [134.672, 134.357, 192.986]
+     Translation: [-1.3393, 2.14194, 0.0242507]
+     Inverse: 
+       0.998557 -0.053004 -0.00861415 
+       0.0530009 0.998594 -0.000589926 
+       0.00863331 0.000132517 0.999963 
+     Singular: 0
+     AngleX: -0.000589926
+     AngleY: 0.00861425
+     AngleZ: -0.0530257
+     ComputeZYX: Off
+   TransformsToOptimizeFlags: 
+           1 
+   TransformsToOptimizeQueue: 
+   PreviousTransformsToOptimizeUpdateTime: 0
+
+
+────────────────────────────────────────────────────────────
+  Quantitative Metrics
+────────────────────────────────────────────────────────────
+
+Before registration (moving vs fixed):
+  MSE                       = 0.004478
+  NCC                       = 0.978452
+  SSIM                      = 0.725112
+  AbsDiff_mean              = 0.023702
+  AbsDiff_std               = 0.062578
+  AbsDiff_max               = 0.863731
+  AbsDiff_P99.9             = 0.601795
+  MSE_mask                  = 0.005809
+  NCC_mask                  = 0.508555
+  AbsDiff_mean_mask         = 0.040279
+  AbsDiff_std_mask          = 0.064703
+  AbsDiff_max_mask          = 0.800967
+  AbsDiff_P99.9_mask        = 0.595443
+  MSE_eroded                = 0.001516
+  NCC_eroded                = 0.428722
+  AbsDiff_mean_eroded       = 0.030200
+  AbsDiff_std_eroded        = 0.024572
+  AbsDiff_max_eroded        = 0.418226
+  AbsDiff_P99.9_eroded      = 0.159037
+
+After registration (registered vs fixed):
+  MSE                       = 0.000583
+  NCC                       = 0.997278
+  SSIM                      = 0.900854
+  AbsDiff_mean              = 0.011797
+  AbsDiff_std               = 0.021076
+  AbsDiff_max               = 0.986836
+  AbsDiff_P99.9             = 0.196749
+  MSE_mask                  = 0.000569
+  NCC_mask                  = 0.898234
+  AbsDiff_mean_mask         = 0.017422
+  AbsDiff_std_mask          = 0.016290
+  AbsDiff_max_mask          = 0.438795
+  AbsDiff_P99.9_mask        = 0.150355
+  MSE_eroded                = 0.000477
+  NCC_eroded                = 0.814071
+  AbsDiff_mean_eroded       = 0.016713
+  AbsDiff_std_eroded        = 0.014046
+  AbsDiff_max_eroded        = 0.219495
+  AbsDiff_P99.9_eroded      = 0.092558
+
+────────────────────────────────────────────────────────────
+  Change-Map Analysis
+────────────────────────────────────────────────────────────
+  Threshold:             3.0σ = 0.042139
+
+  Full (non-eroded) mask:
+    Mask voxels:         11,423,765
+    Voxels above thresh: 760,068
+    % above threshold:   6.65%
+
+  Eroded mask (5 px inward):
+    Mask voxels:         9,678,772
+    Voxels above thresh: 559,260
+    % above threshold:   5.78%
+
+  Connected components:  186111
+  Largest component:     20,633 voxels
+
+  The eroded-mask percentage (5.78%) is an upper bound on
+  potential deformation-related change because acquisition
+  artefacts (e.g., stripe/ring effects) may contribute. The
+  higher full-mask value (6.65%) confirms that specimen
+  boundaries inflate the raw count.

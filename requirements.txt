@@ -1,6 +1,6 @@
-SimpleITK
-numpy
-tifffile
-scikit-image
-scipy
-matplotlib
+numpy==2.4.2
+tifffile==2026.2.24
+SimpleITK==2.5.3
+scikit-image==0.26.0
+scipy==1.17.1
+matplotlib==3.10.8

@@ -92,3 +92,9 @@ This generates `fig1_overview.png` through `fig10_registration_settings.png` and
 
 - Python 3.12
 - See [requirements.txt](requirements.txt) for pinned dependencies
+
+## Results
+
+![Registration](https://github.com/NovakovaMaria/RegistrationOf3dCtData/blob/main/results/fig8_summary_dashboard.png)
+
+![Deformation](https://github.com/NovakovaMaria/RegistrationOf3dCtData/blob/main/results/fig9_masked_deformation.png)
